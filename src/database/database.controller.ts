@@ -11,8 +11,11 @@ export class DatabaseController {
     }
 
     @Post('news')
-    async createNews(@Body() message: NewsItemDto){
-        return await this.newsService.createNews(message);
+    async createNews(@Body() newsItem: NewsItemDto){
+        return await this.newsService.createNews(newsItem)
+        .then((savedNewsItem) => {
+            console.log(`Saved newsItem into db: ${savedNewsItem}`);
+        }).catch((error) => console.error(`Saving of ${newsItem} failed`));
     }
 
     @Get('news')

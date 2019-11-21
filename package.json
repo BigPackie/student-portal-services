@@ -1,8 +1,9 @@
 {
   "name": "student-portal-services",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "service backend for database access of ICIT student portal",
+  "author": "ppindes@gmail.com",
+  "homepage": "https://kmutnb.ac.th/faculty-and-agencies/bangkok/icit.aspx",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
