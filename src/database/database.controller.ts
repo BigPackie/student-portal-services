@@ -15,7 +15,11 @@ export class DatabaseController {
         return await this.newsService.createNews(newsItem)
         .then((savedNewsItem) => {
             console.log(`Saved newsItem into db: ${savedNewsItem}`);
-        }).catch((error) => console.error(`Saving of ${newsItem} failed`));
+            return savedNewsItem;
+        }).catch((error) => {
+            console.error(`Saving of ${newsItem} failed`);
+            return error;
+        });
     }
 
     @Get('news')
