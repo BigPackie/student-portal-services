@@ -14,10 +14,10 @@ export class DatabaseController {
     async createNews(@Body() newsItem: NewsItemDto){
         return await this.newsService.createNews(newsItem)
         .then((savedNewsItem) => {
-            console.log(`Saved newsItem into db: ${savedNewsItem}`);
+            console.log(`Saved newsItem into db: ${savedNewsItem.name} with id ${savedNewsItem._id}`);
             return savedNewsItem;
         }).catch((error) => {
-            console.error(`Saving of ${newsItem} failed`);
+            console.error(`Saving of newsItem ${newsItem.name} failed`);
             return error;
         });
     }
