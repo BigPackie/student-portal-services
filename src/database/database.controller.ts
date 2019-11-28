@@ -52,4 +52,9 @@ export class DatabaseController {
                 return error;
             });
     }
+
+    @Get('newsDetail/:id')
+    async getNewsItemDetail(@Param('id') id: String){
+        return await this.newsService.getNewsDetail(id);
+    }
 }

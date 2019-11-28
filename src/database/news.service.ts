@@ -34,4 +34,8 @@ export class NewsService {
         return await newsItemDetail.save();
     }
 
+    async getNewsDetail(id: any): Promise<NewsItemDetail>{
+        return await this.newsItemDetailModel.findOne({_id: id});
+    }
+
 }
