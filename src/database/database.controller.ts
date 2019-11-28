@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 
 import { NewsService } from './news.service';
 import { NewsItemDto, NewsItemDetailDto } from './news.dto';
@@ -53,8 +53,8 @@ export class DatabaseController {
             });
     }
 
-    @Get('newsDetail/:id')
-    async getNewsItemDetail(@Param('id') id: String){
+    @Get('newsDetail')
+    async getNewsItemDetail(@Query('id') id: string) {
         return await this.newsService.getNewsDetail(id);
     }
 }
