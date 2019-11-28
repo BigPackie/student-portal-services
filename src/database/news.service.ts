@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { NewsItemDto } from './news.dto';
-import { NewsItem } from './news.interface';
+import { NewsItemDto, NewsItemDetailDto } from './news.dto';
+import { NewsItem, NewsItemDetail } from './news.interface';
 
 @Injectable()
 export class NewsService {
 
-    constructor(@InjectModel('NewsItem') private newsItemModel: Model<NewsItem>){
+    constructor(@InjectModel('NewsItem') private newsItemModel: Model<NewsItem>,
+                @InjectModel('NewsItemDetail') private newsItemDetailModel: Model<NewsItemDetail>){
 
     }
 
@@ -22,6 +23,15 @@ export class NewsService {
 
     async getNewsItem(id: any): Promise<NewsItem>{
         return await this.newsItemModel.findOne({_id: id});
+    }
+
+    async existNewsItem(id: any): Promise<boolean>{
+        return await this.newsItemModel.exists({_id: id});
+    }
+
+    async createNewsDetail(newsItemDetailDto: NewsItemDetailDto): Promise<NewsItemDetail>{
+        const newsItemDetail = new this.newsItemDetailModel(newsItemDetailDto);
+        return await newsItemDetail.save();
     }
 
 }

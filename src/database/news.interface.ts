@@ -5,5 +5,10 @@ export interface NewsItem extends Document{
     validFrom: Date,
     validTo: Date,
     overviewImageBase64: string,
-    newsItemDetailId: string,
+}
+
+export interface NewsItemDetail extends Document{
+    _id: string,
+    description: string,
+    imageBase64: string
 }

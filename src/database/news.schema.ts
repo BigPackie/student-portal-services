@@ -7,7 +7,6 @@ export const NewsItemSchema = new mongoose.Schema(
         validFrom: Date,
         validTo: Date,
         overviewImageBase64: String,
-        newsItemDetailId: mongoose.SchemaTypes.ObjectId, //_id of NewsItemDetailSchema
     },
     {
         timestamps: true
@@ -16,8 +15,8 @@ export const NewsItemSchema = new mongoose.Schema(
 
 export const NewsItemDetailSchema = new mongoose.Schema(
     {
-         //_id field is automatically generated
-        image: String,       
+        _id: mongoose.SchemaTypes.ObjectId, //use the same id as NewsItemSchema 
+        imageBase64: String,       
         description: String,
     }
 )

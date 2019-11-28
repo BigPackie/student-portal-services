@@ -6,6 +6,7 @@ export class NewsItemDto {
 }
 
 export class NewsItemDetailDto {
-    image: string;       
+    _id: string;
+    imageBase64: string;       
     description: string;
 }
