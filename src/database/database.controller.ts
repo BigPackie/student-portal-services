@@ -46,10 +46,10 @@ export class DatabaseController {
         return await this.newsService.createNewsDetail(newsItemDetail)
             .then((savedNewsItemsDetail) => {
                 console.log(`Saved newsItemDetail into db: ${savedNewsItemsDetail._id} `);
-                return savedNewsItemsDetail;
+                return Promise.resolve(savedNewsItemsDetail);
             }).catch((error) => {
                 console.error(`Saving of newsItemDetail ${newsItemDetail._id} failed`);
-                return error;
+                return Promise.reject(error);
             });
     }
 
