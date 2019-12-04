@@ -12,7 +12,7 @@ export class DatabaseController {
 
     }
 
-    @Post('news')
+    @Post('newsItem')
     async createNews(@Body() newsItem: NewsItemDto){
         return await this.newsService.createNews(newsItem)
         .then((savedNewsItem) => {
@@ -29,8 +29,13 @@ export class DatabaseController {
         return await this.newsService.getNews();
     }
 
-    @Get('news/:id')
-    async getNewsItem(@Param('id') id: String){
+    // @Get('news/:id')
+    // async getNewsItem(@Param('id') id: String){
+    //     return await this.newsService.getNewsItem(id);
+    // }
+
+    @Get('newsItem')
+    async getNewsItem(@Query('id') id: string) {
         return await this.newsService.getNewsItem(id);
     }
 
