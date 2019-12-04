@@ -7,6 +7,10 @@ export const NewsItemSchema = new mongoose.Schema(
         validFrom: Date,
         validTo: Date,
         overviewImageBase64: String,
+        deleted: {
+            type: Boolean,
+            default: false
+        } 
     },
     {
         timestamps: true
