@@ -18,6 +18,7 @@ export class NewsService {
     }
 
     async getNews(): Promise<NewsItem[]>{
+       // await this.newsItemModel.listIndexes().then((res) =>  console.log(`indexes: ${JSON.stringify(res)}`));
         return await this.newsItemModel.find().exec();
     }
 

@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, UseInterceptors } from '@nestjs/common';
 
 import { NewsService } from './news.service';
 import { NewsItemDto, NewsItemDetailDto } from './news.dto';
+import { LoggingInterceptor } from 'src/logging.interceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('database')
 export class DatabaseController {
 

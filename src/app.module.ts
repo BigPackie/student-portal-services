@@ -9,7 +9,12 @@ import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [
     HttpModule,
-    MongooseModule.forRoot('mongodb://localhost/studentPortal'),
+    MongooseModule.forRoot('mongodb://localhost:27017/studentPortal',
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        poolSize: 100
+      }),
     DatabaseModule
   ],
   controllers: [AppController, MessagesController],
