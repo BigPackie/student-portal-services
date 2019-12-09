@@ -8,7 +8,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     const referer = context.switchToHttp().getRequest().headers.referer;
 
-    console.log(`Requesting '${context.getHandler().name}' at ${referer}`);
+    console.log(`${Date().toString()} Requesting '${context.getHandler().name}' at ${referer}`);
 
     const now = Date.now();
     return next

@@ -12,8 +12,19 @@ export class NewsService {
 
     }
 
-    async createNews(newsItemDto: NewsItemDto): Promise<NewsItem>{
-        const newsItem = new this.newsItemModel(newsItemDto);
+    async saveNews(newsItemDto: NewsItemDto): Promise<NewsItem> {
+        let newsItem = await this.newsItemModel.findOne({ _id: newsItemDto._id });
+        
+        if (!newsItem) {
+            newsItem = new this.newsItemModel(newsItemDto); //does not exist yet, create new
+        } else {
+            newsItem.overviewImageBase64 = newsItemDto.overviewImageBase64;
+            newsItem.name = newsItemDto.name;
+            newsItem.validFrom = newsItemDto.validFrom;
+            newsItem.validTo = newsItemDto.validTo;
+            newsItem.deleted = newsItemDto.deleted;
+        }
+
         return await newsItem.save();
     }
 
@@ -30,8 +41,15 @@ export class NewsService {
         return await this.newsItemModel.exists({_id: id});
     }
 
-    async createNewsDetail(newsItemDetailDto: NewsItemDetailDto): Promise<NewsItemDetail>{
-        const newsItemDetail = new this.newsItemDetailModel(newsItemDetailDto);
+    async saveNewsDetail(newsItemDetailDto: NewsItemDetailDto): Promise<NewsItemDetail> {
+        let newsItemDetail = await this.newsItemDetailModel.findOne({ _id: newsItemDetailDto._id });
+        if (!newsItemDetail) {
+            newsItemDetail = new this.newsItemDetailModel(newsItemDetailDto);
+        } else {
+            newsItemDetail.description = newsItemDetailDto.description;
+            newsItemDetail.imageBase64 = newsItemDetailDto.imageBase64;
+        }
+
         return await newsItemDetail.save();
     }
 

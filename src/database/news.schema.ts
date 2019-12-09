@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 export const NewsItemSchema = new mongoose.Schema(
     {
-        //_id field is automatically generated
+        //_id: mongoose.SchemaTypes.ObjectId,
         name: String,
         validFrom: Date,
         validTo: Date,

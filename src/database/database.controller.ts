@@ -13,14 +13,14 @@ export class DatabaseController {
     }
 
     @Post('newsItem')
-    async createNews(@Body() newsItem: NewsItemDto){
-        return await this.newsService.createNews(newsItem)
+    async saveNews(@Body() newsItem: NewsItemDto){
+        return await this.newsService.saveNews(newsItem)
         .then((savedNewsItem) => {
             console.log(`Saved newsItem into db: ${savedNewsItem.name} with id ${savedNewsItem._id}`);
-            return savedNewsItem;
+            return Promise.resolve(savedNewsItem);
         }).catch((error) => {
             console.error(`Saving of newsItem ${newsItem.name} failed`);
-            return error;
+            return Promise.reject(error);
         });
     }
 
@@ -40,7 +40,7 @@ export class DatabaseController {
     }
 
     @Post('newsDetail')
-    async createNewsDetail(@Body() newsItemDetail: NewsItemDetailDto) {
+    async saveNewsDetail(@Body() newsItemDetail: NewsItemDetailDto) {
 
         let existNewsItem = await this.newsService.existNewsItem(newsItemDetail._id);
 
@@ -50,7 +50,7 @@ export class DatabaseController {
             return Promise.reject(rejectReason);
         }
 
-        return await this.newsService.createNewsDetail(newsItemDetail)
+        return await this.newsService.saveNewsDetail(newsItemDetail)
             .then((savedNewsItemsDetail) => {
                 console.log(`Saved newsItemDetail into db: ${savedNewsItemsDetail._id} `);
                 return Promise.resolve(savedNewsItemsDetail);
