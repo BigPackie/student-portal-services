@@ -28,6 +28,13 @@ export class NewsService {
         return await newsItem.save();
     }
 
+    async changeDeletedFlag(id: string, deleted: boolean): Promise<NewsItem> {
+        let newsItem = await this.newsItemModel.findOne({ _id: id });
+        newsItem.deleted = deleted;
+        
+        return await newsItem.save();
+    }
+
     async getNews(): Promise<NewsItem[]>{
        // await this.newsItemModel.listIndexes().then((res) =>  console.log(`indexes: ${JSON.stringify(res)}`));
         return await this.newsItemModel.find().exec();

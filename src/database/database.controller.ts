@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, UseInterceptors, Delete } from '@nestjs/common';
 
 import { NewsService } from './news.service';
 import { NewsItemDto, NewsItemDetailDto } from './news.dto';
@@ -22,6 +22,33 @@ export class DatabaseController {
             console.error(`Saving of newsItem ${newsItem.name} failed`);
             return Promise.reject(error);
         });
+    }
+
+
+    @Post('newsItem/delete')
+    async deleteNews(@Body('id') id: string) {
+        return await this.newsService.changeDeletedFlag(id, true)
+            .then((deletedNewsItem) => {
+                console.log(`NewsItem with id ${id} marked as deleted.`);
+                return Promise.resolve(deletedNewsItem);
+            })
+            .catch((error) => {
+                console.error(`Deleting of newsItem ${id} failed`);
+                return Promise.reject(error);
+            });
+    }
+
+    @Post('newsItem/undelete')
+    async undeleteNews(@Body('id') id: string) {
+        return await this.newsService.changeDeletedFlag(id, false)
+            .then((deletedNewsItem) => {
+                console.log(`NewsItem with id ${id} marked as undeleted.`);
+                return Promise.resolve(deletedNewsItem);
+            })
+            .catch((error) => {
+                console.error(`Undeleting of newsItem ${id} failed`);
+                return Promise.reject(error);
+            });
     }
 
     @Get('news')
