@@ -40,6 +40,19 @@ export class NewsService {
         return await this.newsItemModel.find().exec();
     }
 
+    async getActiveNews(): Promise<NewsItem[]>{
+
+         let now = new Date();
+
+         return await this.newsItemModel
+         .find()
+         .where('deleted').equals(false)
+         .where('validFrom').lte(now)
+         .where('validTo').gte(now)
+         .sort('-validFrom')
+         .exec();
+     }
+
     async getNewsItem(id: any): Promise<NewsItem>{
         return await this.newsItemModel.findOne({_id: id});
     }

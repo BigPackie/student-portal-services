@@ -56,6 +56,11 @@ export class DatabaseController {
         return await this.newsService.getNews();
     }
 
+    @Get('news/active')
+    async getActiveNews(){
+        return await this.newsService.getActiveNews();
+    }
+
     // @Get('news/:id')
     // async getNewsItem(@Param('id') id: String){
     //     return await this.newsService.getNewsItem(id);
