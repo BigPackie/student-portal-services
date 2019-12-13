@@ -3,12 +3,14 @@ import { Controller, Get, Post, Body, Param, Query, UseInterceptors, Delete } fr
 import { NewsService } from './news.service';
 import { NewsItemDto, NewsItemDetailDto } from './news.dto';
 import { LoggingInterceptor } from 'src/logging.interceptor';
+import { PromotionService } from './pomotion.service';
+import { PromotionDto, PromotionDetailDto } from './promotion.dto';
 
 @UseInterceptors(LoggingInterceptor)
 @Controller('database')
 export class DatabaseController {
 
-    constructor(private newsService: NewsService){
+    constructor(private newsService: NewsService, private promotionService: PromotionService){
 
     }
 
@@ -24,6 +26,10 @@ export class DatabaseController {
         });
     }
 
+    @Get('newsItem')
+    async getNewsItem(@Query('id') id: string) {
+        return await this.newsService.getNewsItem(id);
+    }
 
     @Post('newsItem/delete')
     async deleteNews(@Body('id') id: string) {
@@ -66,11 +72,6 @@ export class DatabaseController {
     //     return await this.newsService.getNewsItem(id);
     // }
 
-    @Get('newsItem')
-    async getNewsItem(@Query('id') id: string) {
-        return await this.newsService.getNewsItem(id);
-    }
-
     @Post('newsDetail')
     async saveNewsDetail(@Body() newsItemDetail: NewsItemDetailDto) {
 
@@ -96,4 +97,87 @@ export class DatabaseController {
     async getNewsItemDetail(@Query('id') id: string) {
         return await this.newsService.getNewsDetail(id);
     }
+
+
+    //--- promotions ---
+
+    @Post('promotion')
+    async savePromotion(@Body() promotion: PromotionDto){
+        return await this.promotionService.savePromotion(promotion)
+        .then((savedPromotion) => {
+            console.log(`Saved promotion into db: ${savedPromotion.name} with id ${savedPromotion._id}`);
+            return Promise.resolve(savedPromotion);
+        }).catch((error) => {
+            console.error(`Saving of newsItem ${promotion.name} failed`);
+            return Promise.reject(error);
+        });
+    }
+
+    @Get('promotion')
+    async getPromotion(@Query('id') id: string) {
+        return await this.promotionService.getPromotion(id);
+    }
+
+    @Post('promotion/delete')
+    async deletePromotion(@Body('id') id: string) {
+        return await this.promotionService.changeDeletedFlag(id, true)
+            .then((deletedPromotion) => {
+                console.log(`Promotion with id ${id} marked as deleted.`);
+                return Promise.resolve(deletedPromotion);
+            })
+            .catch((error) => {
+                console.error(`Deleting of promotion ${id} failed`);
+                return Promise.reject(error);
+            });
+    }
+
+    @Post('promotion/undelete')
+    async undeletePromotion(@Body('id') id: string) {
+        return await this.promotionService.changeDeletedFlag(id, false)
+            .then((undeletedPromotion) => {
+                console.log(`Promotion with id ${id} marked as undeleted.`);
+                return Promise.resolve(undeletedPromotion);
+            })
+            .catch((error) => {
+                console.error(`Undeleting of promotion ${id} failed`);
+                return Promise.reject(error);
+            });
+    }
+
+    @Get('promotions')
+    async getPromotions(){
+        return await this.promotionService.getPromotions();
+    }
+
+    @Get('promotions/active')
+    async getActivePromotions(){
+        return await this.promotionService.getActivePromotions();
+    }
+
+    @Post('promotionDetail')
+    async savePromotionDetail(@Body() promotionDetail: PromotionDetailDto) {
+
+        let existPromotion = await this.promotionService.existPromotion(promotionDetail._id);
+
+        if (!existPromotion) {
+            let rejectReason = `Promotion with id ${promotionDetail._id} does not exist. Cannot save details.`
+            console.error(rejectReason);
+            return Promise.reject(rejectReason);
+        }
+
+        return await this.promotionService.savePromotionDetail(promotionDetail)
+            .then((savedPromotionDetail) => {
+                console.log(`Saved promotionDetail into db: ${savedPromotionDetail._id} `);
+                return Promise.resolve(savedPromotionDetail);
+            }).catch((error) => {
+                console.error(`Saving of promotionDetail ${promotionDetail._id} failed`);
+                return Promise.reject(error);
+            });
+    }
+
+    @Get('promotionDetail')
+    async getPromotionDetail(@Query('id') id: string) {
+        return await this.promotionService.getPromotionDetail(id);
+    }
+
 }
