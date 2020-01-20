@@ -5,6 +5,7 @@ import { MessagesController } from './messages/messages.controller';
 
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseModule } from './database/database.module';
+import { UpdateModule } from './update/update.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { DatabaseModule } from './database/database.module';
         useUnifiedTopology: true,
         poolSize: 100
       }),
-    DatabaseModule
+    DatabaseModule,
+    UpdateModule
   ],
   controllers: [AppController, MessagesController],
   providers: [AppService],
