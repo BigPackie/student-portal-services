@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "build": "gfhgf",
-    "playStoreLink": "someLinkToGooglePlayStoreToTheApp",
-    "appleStoreLink": "someVersionToAppleStoreToTheApp",
+    "playStoreLink": "com.android.chrome",
+    "appleStoreLink": "284708449",
     "updateRequired": false
 }
