@@ -67,6 +67,21 @@ export class DatabaseController {
         return await this.newsService.getActiveNews();
     }
 
+    @Get('news/upcoming')
+    async getUpcomingNews(){
+        return await this.newsService.getUpcomingNews();
+    }
+
+    @Get('news/finished')
+    async getFinishedNews(){
+        return await this.newsService.getDeletedOrExpiredNews();
+    }
+
+    @Get('news/recent')
+    async getRecentNews(){
+        return await this.newsService.getRecentlyModifiedNews();
+    }
+
     // @Get('news/:id')
     // async getNewsItem(@Param('id') id: String){
     //     return await this.newsService.getNewsItem(id);
@@ -152,6 +167,21 @@ export class DatabaseController {
     @Get('promotions/active')
     async getActivePromotions(){
         return await this.promotionService.getActivePromotions();
+    }
+
+    @Get('promotions/upcoming')
+    async getUpcomingPromotions(){
+        return await this.promotionService.getUpcomingPromotions();
+    }
+
+    @Get('promotions/finished')
+    async getFinishedPromotions(){
+        return await this.promotionService.getDeletedOrExpiredPromotions();
+    }
+
+    @Get('promotions/recent')
+    async getRecentPromotions(){
+        return await this.promotionService.getRecentlyModifiedPromotions();
     }
 
     @Post('promotionDetail')

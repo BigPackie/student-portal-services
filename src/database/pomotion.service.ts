@@ -52,6 +52,41 @@ export class PromotionService {
          .exec();
      }
 
+     async getUpcomingPromotions(): Promise<Promotion[]>{
+
+        let now = new Date();
+
+        return await this.promotionModel
+        .find()
+        .where('deleted').equals(false)
+        .where('validFrom').gte(now)
+        .where('validTo').gte(now)
+        .sort('validFrom')
+        .exec();
+    }
+
+    async getDeletedOrExpiredPromotions(): Promise<Promotion[]>{
+
+        let now = new Date();
+
+        return await this.promotionModel
+        .find()
+        .or([{ validTo: { $lt: now}}, { deleted: true}])
+        .sort('-validTo')
+        .exec();
+    }
+
+    async getRecentlyModifiedPromotions(): Promise<Promotion[]>{
+
+        let now = new Date();
+
+        return await this.promotionModel
+        .find()
+        .sort('-updatedAt')
+        .limit(5)
+        .exec();
+    }
+
     async getPromotion(id: any): Promise<Promotion>{
         return await this.promotionModel.findOne({_id: id});
     }

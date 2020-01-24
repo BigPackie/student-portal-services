@@ -53,6 +53,41 @@ export class NewsService {
          .exec();
      }
 
+     async getUpcomingNews(): Promise<NewsItem[]>{
+
+        let now = new Date();
+
+        return await this.newsItemModel
+        .find()
+        .where('deleted').equals(false)
+        .where('validFrom').gte(now)
+        .where('validTo').gte(now)
+        .sort('validFrom')
+        .exec();
+    }
+
+    async getDeletedOrExpiredNews(): Promise<NewsItem[]>{
+
+        let now = new Date();
+
+        return await this.newsItemModel
+        .find()
+        .or([{ validTo: { $lt: now}}, { deleted: true}])
+        .sort('-validTo')
+        .exec();
+    }
+
+    async getRecentlyModifiedNews(): Promise<NewsItem[]>{
+
+        let now = new Date();
+
+        return await this.newsItemModel
+        .find()
+        .sort('-updatedAt')
+        .limit(5)
+        .exec();
+    }
+
     async getNewsItem(id: any): Promise<NewsItem>{
         return await this.newsItemModel.findOne({_id: id});
     }
