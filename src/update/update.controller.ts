@@ -11,7 +11,7 @@ export class UpdateController {
     };
 
     @Get('newestAppVersion')
-    async getNewsItem() {
+    async getNewAppVersion() {
        return await this.updateService.getAppVersion();
     }
 
